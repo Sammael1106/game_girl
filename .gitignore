@@ -1,0 +1,11 @@
+# Next.js build output
+.next
+
+# Node modules
+node_modules
+
+# Webpack cache
+.cache
+
+# Mac os
+.DS_Store

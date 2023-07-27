@@ -1,0 +1,70 @@
+*
+  margin: 0
+  padding: 0
+
+body
+  color: #373651
+  font-family: 'Nunito', sans-serif
+  font-size: 14px
+  line-height: 1.5
+  touch-action: none
+
+h1
+  font-family: 'Abel Pro', sans-serif
+  font-weight: 400
+  text-transform: uppercase
+  font-size: 3rem
+  strong
+    color: #373651
+    font-weight: 700
+
+.footer
+  height: 50vh
+  width: 100vw
+  text-align: right
+  padding: 1rem
+  box-sizing: border-box
+  position: absolute
+  bottom: 0
+  border-top: 1px solid black
+  z-index: 2
+  display: none
+
+#__next
+  position: absolute
+  inset: 0
+#__next > div
+  touch-action: none
+
+
+#root
+  border: 10px solid red
+  position: relative
+  z-index: 1
+  height: calc(100vh - 0rem)
+  &, & > div
+    position: fixed
+    inset: 0
+    outline: none
+  canvas
+    position: fixed
+    outline: none
+    inset: 0 auto 0 50%
+    transform: translateX(-50%)
+    touch-action: none
+  .container
+    position: absolute
+    inset: 2rem !important
+    padding-bottom: 2rem
+    transform: none !important
+
+.sharethis-inline-share-buttons
+  display: none !important
+
+#leva__root
+  display: none !important
+
+.screen-iframe iframe
+  width: 1100px
+  height: 600px
+  border: none
