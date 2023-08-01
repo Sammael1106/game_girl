@@ -23,7 +23,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-use": "^17.4.0",
-    "three": "^0.152.2"
+    "three": "^0.152.2",
+    "three-stdlib": "^2.23.13"
   },
   "devDependencies": {
     "sass": "^1.62.0",

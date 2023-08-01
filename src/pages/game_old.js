@@ -1,16 +1,9 @@
 import * as THREE from 'three';
 import { useRef, useState, useEffect } from 'react';
-import { Canvas, useFrame, useThree, extend } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, KeyboardControls, Text, useKeyboardControls } from '@react-three/drei'
 import { useKey } from 'react-use';
 import { Perf } from 'r3f-perf';
-import { PixelatePass } from '../shaders/PixelatePass';
-import { RenderPixelatedPass } from '../shaders/RenderPixelatedPass';
-
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-
-extend({ PixelatePass, RenderPixelatedPass });
 
 const fieldSize = 9
 const cellSize = 1
@@ -80,45 +73,16 @@ function Game() {
   useKey('ArrowLeft', () => setCurrentIndex(prevIndex => prevIndex + fieldSize), {}, [currentIndex]);
   useKey('ArrowRight', () => setCurrentIndex(prevIndex => prevIndex - fieldSize), {}, [currentIndex]);
 
-  const { gl, scene, camera, size } = useThree();
+  const { scene } = useThree();
   const refCube1 = useRef();
   const refCube2 = useRef();
-
-  const composer = useRef(null);
-
-  let screenResolution = new THREE.Vector2( window.innerWidth, window.innerHeight )
-  let renderResolution = screenResolution.clone().divideScalar(6);
-  renderResolution.x |= 0;
-  renderResolution.y |= 0;
-
-  useEffect(() => {
-    composer.current = new EffectComposer(gl);
-    composer.current.setSize(size.width, size.height);
-
-    // Passes
-    const renderPass = new RenderPixelatedPass(renderResolution, scene, camera);
-    const pixelatePass = new PixelatePass(renderResolution);
-
-
-    composer.current.addPass(renderPass);
-    composer.current.addPass(pixelatePass);
-
-    return () => {
-      composer.current.dispose();
-    };
-  }, [gl, scene, camera, size]);
-
-  useFrame((_, delta) => {
-    if (composer.current) {
-      composer.current.render(delta);
-    }
-  }, 1);
 
   useFrame(({clock}) => {
     // refCube2.current.position.z = Math.sin(clock.elapsedTime) * 2;
     // refCube1.current.position.x = Math.sin(clock.elapsedTime) * 2;
     // checkIntersect(refCube1, refCube2) && console.log("Cubes are intersecting");
   });
+
 
   return <>
     <Frog currentIndex={currentIndex}/>
@@ -182,7 +146,6 @@ function WigglyBox({ size, speed, row, delay = 0}) {
 //
 // Main App component
 export default function App() {
-  console.log(PixelatePass)
   return (
     <Canvas
       style={{ backgroundColor: '#000' }}
@@ -196,6 +159,7 @@ export default function App() {
 }
 
 function checkIntersect(object1, object2) {
+
   const boundingBox1 = new THREE.Box3().setFromObject(object1.current);
   const boundingBox2 = new THREE.Box3().setFromObject(object2.current);
 
