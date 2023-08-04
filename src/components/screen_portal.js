@@ -46,11 +46,12 @@ export const ScreenPortal = ({portalMesh, children, aspectRatio}, ref) => {
   const [refresh, setRefresh] = useState(false);
 
 
-    const { blendFunction, pixelResolution, gridScale} = useControls({
-      blendFunction: {value: 29,  min: 0, max: 32, step: 1},
-      pixelResolution: {value: 5,  min: 0, max: 10, step: 0.1},
-      gridScale: {value: 0.8, min: 0, max: 3, step: 0.1}
-    })
+  const { blendFunction, pixelResolution, gridScale, noise} = useControls({
+    blendFunction: {value: 29,  min: 0, max: 32, step: 1},
+    pixelResolution: {value: 5,  min: 0, max: 10, step: 0.1},
+    gridScale: {value: 0.8, min: 0, max: 3, step: 0.1},
+    noise: {value: 0, min: 0, max: 3, step: 0.1},
+  })
 
   let screenResolution = new THREE.Vector2( window.innerWidth, window.innerHeight )
   let renderResolution = screenResolution.clone().divideScalar(pixelResolution);
@@ -67,7 +68,7 @@ export const ScreenPortal = ({portalMesh, children, aspectRatio}, ref) => {
       blendFunction: 12,
       premultiply: true
     })
-    noiseEffect.blendMode.opacity = new THREE.Uniform(0.4)
+    noiseEffect.blendMode.opacity = new THREE.Uniform(noise)
 
     // Grid
     const gridEffect = new GridEffect({

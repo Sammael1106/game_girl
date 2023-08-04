@@ -4,13 +4,15 @@ import * as THREE from 'three'
 import { useRef, useCallback, useState } from 'react'
 import { useLayoutEffect } from 'react'
 import { Canvas, useFrame, extend } from '@react-three/fiber'
-import { Text, OrbitControls, useGLTF, Environment, PresentationControls } from '@react-three/drei'
+import { Text, OrbitControls, useGLTF, Environment, PresentationControls, Center } from '@react-three/drei'
 import { Bloom, EffectComposer, Texture, Noise } from '@react-three/postprocessing'
 import { GlitchMode, BlendFunction } from 'postprocessing'
 
 import { Drunk, Overlay, Pencil } from '../vfx/custom_effects'
 import { ScreenPortal } from '../components/screen_portal'
 import { Leva, useControls } from "leva";
+
+import { Gameboy } from '@/models/gameboy'
 
 
 export default function App() {
@@ -19,31 +21,26 @@ export default function App() {
   return (
     <>
       <Leva />
-      <Canvas shadows camera={{ position: [0, 0, 10], fov: 35 }}>
+      <Canvas shadows camera={{ position: [0, 0, 13], fov: 35 }}>
 
         <color args={['pink']} attach="background" />
 
         {/* <OrbitControls makeDefault /> */}
         <PresentationControls global
-                              rotation={[0,0,0]}
-                              polar={ [ 0, 0.75 ] }
-                              azimuth={[ -0.5, 0.5 ]}>
-        <ScreenPortal aspectRatio={4/2}
-                      portalMesh={ <mesh><planeGeometry args={[6, 3]} /></mesh> }>
-          <GameScene />
-        </ScreenPortal>
+                              // rotation={[0,0,0]}
+                              // polar={ [ 0, 0.75 ] }
+                              // azimuth={[ -0.5, 0.5 ]}
+                              >
+        <group position={[0, 2.25, -0.85]}>
+          <ScreenPortal aspectRatio={3/2}
+                        portalMesh={ <mesh><planeGeometry args={[3, 2.1]} /></mesh> }>
+            <GameScene />
+          </ScreenPortal>
+        </group>
 
-        <mesh position={[3, -1, 2]}>
-          <dodecahedronGeometry args={[1]} />
-          <meshBasicMaterial
-            roughness={0}
-            clearcoat={1}
-            clearcoatRoughness={0}
-            color="#73B9ED"
-          />
-        </mesh>
+        <Gameboy scale={2} rotation={[0.9, 0, 0]} position={[0,-1.5,0]} />
         </PresentationControls>
-
+        <Environment resolution={32} files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/drackenstein_quarry_1k.hdr"/>
         <EffectComposer>
           {/* <Pencil /> */}
           {/* <Overlay textureSrc="images/overlay.png" blendFunction={BlendFunction.COLOR_DODGE} opacity={1} repeat={'auto'}  /> */}
@@ -79,7 +76,7 @@ function GameScene() {
     <Environment resolution={32} files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/drackenstein_quarry_1k.hdr"/>
     <mesh position={[0,0,-10]}>
       <planeGeometry args={[100,100]} />
-      <meshBasicMaterial color={'lightblue'} />
+      <meshBasicMaterial color={'#777873'} />
     </mesh>
     <mesh position={[-3, 1, -2]} ref={obj1}>
       <dodecahedronGeometry args={[2]} />
